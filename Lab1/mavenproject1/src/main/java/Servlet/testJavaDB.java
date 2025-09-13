@@ -56,7 +56,7 @@ public class testJavaDB extends HttpServlet {
                COMMENT THE FOLLOWING CODE IF YOU ALREADY HAVE 
                CREATED AND FILLED THE TABLES
             */
-            /*
+            
             // Delete existing table. Comment this line if you have already created and filled it
             query = "drop table image";
             statement = connection.prepareStatement(query);
@@ -123,10 +123,17 @@ public class testJavaDB extends HttpServlet {
             statement.setString(7, "2020/09/17");
             statement.setString(8, "file2.jpg");            
             statement.executeUpdate(); 
-            */
+            
             /* 
                END COMMENT 
-            */            
+            */ 
+            
+            //Añadir los datos del formulario a la DB
+            query = "insert into usuarios values(?,?)";
+            statement = connection.prepareStatement(query);    
+            statement.setString(1, request.getParameter("ID_USUARIO"));
+            statement.setString(2, request.getParameter("PASSWORD"));
+            statement.executeUpdate();
             
             // Select information from users and images and show in the web
             query = "select * from usuarios";
