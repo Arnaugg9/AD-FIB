@@ -56,7 +56,7 @@ public class testJavaDB extends HttpServlet {
                COMMENT THE FOLLOWING CODE IF YOU ALREADY HAVE 
                CREATED AND FILLED THE TABLES
             */
-            
+            /*
             // Delete existing table. Comment this line if you have already created and filled it
             query = "drop table image";
             statement = connection.prepareStatement(query);
