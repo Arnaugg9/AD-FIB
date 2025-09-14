@@ -128,13 +128,40 @@ public class testJavaDB extends HttpServlet {
                END COMMENT 
             */ 
             
-            //Añadir los datos del formulario a la DB
-            query = "insert into usuarios values(?,?)";
-            statement = connection.prepareStatement(query);    
-            statement.setString(1, request.getParameter("ID_USUARIO"));
-            statement.setString(2, request.getParameter("PASSWORD"));
-            statement.executeUpdate();
+            //Comprobar que formulario se ha llenado
+            out.println("Hola");
+            String formType = request.getParameter("form_type");
+            out.println("Si");
             
+            if (formType.equals("usuarios")) {
+                out.println("Form1");
+                //Añadir los datos del formulario USUARIOS a la DB
+                query = "insert into usuarios values(?,?)";
+                statement = connection.prepareStatement(query);    
+                statement.setString(1, request.getParameter("ID_USUARIO"));
+                statement.setString(2, request.getParameter("PASSWORD"));
+                statement.executeUpdate();
+            }
+            
+            else if (formType.equals("image")) {
+                out.println("Form2");
+                //Añadir datos formulario IMAGE a la DB
+                query = "INSERT INTO IMAGE (TITLE, DESCRIPTION, KEYWORDS, AUTHOR, CREATOR, CAPTURE_DATE, STORAGE_DATE, FILENAME) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                statement = connection.prepareStatement(query);            
+                statement.setString(1, request.getParameter("TITLE"));
+                statement.setString(2, request.getParameter("DESCRIPTION"));
+                statement.setString(3, request.getParameter("KEYWORDS"));
+                statement.setString(4, request.getParameter("AUTHOR"));
+                statement.setString(5, request.getParameter("CREATOR"));
+                statement.setString(6, request.getParameter("CAPTURE_DATE"));
+                statement.setString(7, request.getParameter("STORAGE_DATE"));
+                statement.setString(8, request.getParameter("FILENAME"));            
+                statement.executeUpdate();
+            }
+            else {
+                out.println("Ninguno");
+            }
             // Select information from users and images and show in the web
             query = "select * from usuarios";
             statement = connection.prepareStatement(query);
@@ -150,6 +177,8 @@ public class testJavaDB extends HttpServlet {
             statement = connection.prepareStatement(query);
             rs = statement.executeQuery();                                    
 
+            out.println("<br>");
+            
             while (rs.next()) {
                 // read the result set
                 out.println("<br>Id image = " + rs.getString("id"));
