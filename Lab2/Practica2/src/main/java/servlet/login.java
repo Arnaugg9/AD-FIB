@@ -1,9 +1,11 @@
+package servlet;
+
 /**
  *
  * @author alumne
  */
 
-package servlet;
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,45 +19,33 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import DB.Database;
 
 @WebServlet(name = "login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
+    private Database DB = new Database();
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Connection connection = null;
         response.setContentType("text/html;charset=UTF-8");
         
         try(PrintWriter out = response.getWriter()){
-            String query;
-            PreparedStatement statement;
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
             
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-
-            // create a database connection
-            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            
-            query = "select 1 from usuarios where username = ? and password = ?";
-            try (statement = connection.prepareStatement(query)){
-                statement.setString(1, username);
-                statement.setString(2, password);
-                
-                try (ResultSet rs = statement.executeQuery()){
-                    return rs.next();
-                }
-            }    
-            
+            if(DB.existeixUsuari(username, password)){
+                HttpSession session = request.getSession();
+                session.setAttribute("username", username);
+                response.sendRedirect("index.html");
+            } else {
+                /*error d'usuari*/
+                response.sendRedirect("login.jsp");
+            }
             
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e.getMessage());
-            }
         }
     }
     /**
