@@ -18,11 +18,11 @@
                 <table>
                     <tr>
                         <td>Titulo:</td>
-                        <td><input type="text" name="titulo"></td>     
+                        <td><input type="text" name="title"></td>     
                     </tr>
                     <tr>
                         <td>Descripcion:</td>
-                        <td><input type="text" name="descripcion"></td>     
+                        <td><input type="text" name="description"></td>     
                     </tr>
                     <tr>
                         <td>Palabras clave:</td>
@@ -30,7 +30,7 @@
                     </tr>
                     <tr>
                         <td>Autor: </td>
-                        <td><input type="text" name="autor"></td>     
+                        <td><input type="text" name="author"></td>     
                     </tr>
                     <tr>
                         <td>Fecha de captura: </td>
@@ -38,7 +38,7 @@
                     </tr>
                     <tr>
                         <td>Imagen: </td>
-                        <td><input type="image" name="title"></td>     
+                        <td><input type="image" name="image"></td>     
                     </tr>
                     <tr><td><br></td></tr>
                     <tr>
@@ -47,8 +47,13 @@
                 </table>
             </form>
         </div>
+        
+        <c:if test="${not empty errorMessage}">
+            <div style="color:red;">${errorMessage}</div><br>
+        </c:if>
+    
         <div>
-            <Button href="/Practica2/menu.jsp">Volver al menu</button>
+            <Button><a href="menu.jsp">Volver al menu</a></button>
         </div>
     </body>
 </html>
